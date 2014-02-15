@@ -1,0 +1,3 @@
+<?php
+
+$eZTemplateOperatorArray = array();

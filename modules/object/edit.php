@@ -7,28 +7,36 @@ $module = $Params['Module'];
 $tpl = eZTemplate::factory();
 $request = eZHTTPTool::instance();
 $parameters = $module->getNamedParameters();
+$http = eZHttpTool::instance();
+$redirectURI = $http->sessionVariable( 'LastAccessesURI' );
 
 try
 {
     $object = new eZContentObject( $parameters['object_id'] );
 
+    if ( $http->hasPostVariable( 'DiscardButton' ) )
+    {
+        return $module->redirectTo( $request->postVariable('RedirectURI') );
+    }
+
+
     if ($request->hasPostVariable('object'))
     {
-        //$request->postVariable('object');
         $newRemoteId = $request->postVariable('object');
         $object->setAttribute( 'remote_id', $newRemoteId['remote_id'] );
         $object->sync( array( 'remote_id' ) );
 
-        eZContentObject::clearCache( $parameters['object_id'] );
+        return $module->redirectTo( $request->postVariable('RedirectURI') );
     }
 
 
-
     $tpl->setVariable( 'object', $object );
+    $tpl->setVariable( 'RedirectURI', $redirectURI );
+
     $Result = array();
     $Result['content'] = $tpl->fetch( "design:object/edit.tpl" );
     $Result['path'] = array( array( 'url' => false,
-                                    'text' => ezpI18n::tr( 'kernel/object', 'Update Object MetaData' ) ) );
+                                    'text' => ezpI18n::tr( 'kernel/object', 'Update RemoteId' ) ) );
 }
 catch(Exception $e)
 {

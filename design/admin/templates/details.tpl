@@ -44,13 +44,11 @@
     <table class="list" cellspacing="0" summary="{'Node Remote ID and Object Remote ID'|i18n( 'design/admin/node/view/full' )}">
         <tr>
             <th>{'Node Remote ID'|i18n( 'design/admin/node/view/full' )}</th>
-            <th></th>
             <th>{'Object Remote ID'|i18n( 'design/admin/node/view/full' )}</th>
             <th></th>
         </tr>
         <tr>
             <td>{$node.remote_id|wash}</td>
-            <td><a href={concat( 'object/edit/', $node.object.id )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'Edit <%child_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $node.name ) )|wash}" /></a></td>
             <td>{$node.object.remote_id|wash}</td>
             <td><a href={concat( 'object/edit/', $node.object.id )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'Edit <%child_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $node.name ) )|wash}" /></a></td>
         </tr>
